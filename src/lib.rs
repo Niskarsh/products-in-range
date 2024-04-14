@@ -58,4 +58,27 @@ impl BinaryTree {
             }
         }
     }
+
+    pub fn pricesInRange<'a>(&self, start: &i32, end: &i32, prices: &'a mut Vec<i32>) -> &'a mut Vec<i32> {
+        match self.root {
+            None => prices,
+            Some(ref rootTree) => {
+                if rootTree.element > *start {
+                    if rootTree.element < *end {
+                        prices.push(rootTree.element);
+                    }
+                    
+                    match self.left {
+                        None => prices,
+                        Some(ref leftTree) => leftTree.pricesInRange(start, end, prices)
+                    }
+                } else {
+                    match self.right {
+                        None => prices,
+                        Some(ref rightTree) => rightTree.pricesInRange(start, end, prices)
+                    }
+                }
+            }
+        }
+    }
 }
